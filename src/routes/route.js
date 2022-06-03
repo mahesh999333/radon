@@ -1,6 +1,8 @@
 const express = require('express');
 const myHelper = require('../util/helper')
 const underscore = require('underscore')
+const myMovies = require('../movies/movies.js');
+const res = require('express/lib/response');
 
 const router = express.Router();
 
@@ -35,7 +37,62 @@ router.get('/candidates/:canidatesName', function(req, res){
     console.log('Candidates name is '+req.params.canidatesName)
     res.send('Done')
 })
+// Question:1
+router.get('/GET/movies', function(req,res){
+    const m = console.log("Here is the best movies to watch " +myMovies.movies)
+    res.send("Movies")
+})
 
+//Question: 2
+router.get('/GET/movie/:indexNumber', function(req,res){
+    
+    const value = req.params.indexNumber
+    const movies = ['Shutter Iseland', 'Inception', 'Pirates Of Carebian', 'Avenger', 'Lord Of The Rings']
+    res.send(movies[value])
+})
 
+// Question: 3
+router.get('GET/movie/:indexNumber2', function(req, res){
+    const value = req.params.indexNumber2
+    const movies = ['Shutter Iseland', 'Inception', 'Pirates Of Carebian', 'Avenger', 'Lord Of The Rings']
+
+    if(value<movies.length){
+        res.send(movies[value])
+    }else{
+        res.send("IndexNumber does not exist.")
+    }
+    
+})
+
+// Question: 4
+router.get('/GET/films', function(req,res){
+    const film = [
+        {"id":1, "name":"The Shining"},
+        {"id":2, "name":'Incendies'},
+        {"id":3, "name":"Inception"},
+        {"id":4, "name":"Avengers"}
+
+    ]
+       res.send(film)
+})
+
+// Quetion: 5
+router.get('/GET/films/:filmId', function(req, res){
+    const value = req.params.filmId
+    const film = [
+        {"id":1, "name":"The Shining"},
+        {"id":2, "name":'Incendies'},
+        {"id":3, "name":"Inception"},
+        {"id":4, "name":"Avengers"}
+    ]
+    for (i=0;i<film.length; i++){
+        if(value<film[index].id){
+            res.send(film[value])
+        }else{
+            res.send("There is no such movie.")
+        }
+    }
+    
+})
 module.exports = router;
 // adding this comment for no reason
