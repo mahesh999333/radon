@@ -11,4 +11,11 @@ router.post("/createUser", UserController.createUser  )
 
 router.get("/getUsersData", UserController.getUsersData)
 
+router.post("/created", async function (req,res){
+    let data = req.body
+    let saveData = await UserModel.create(data)
+    res.send({msg:saveData})
+})
+
+
 module.exports = router;
