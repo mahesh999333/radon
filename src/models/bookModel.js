@@ -10,4 +10,4 @@ const bookSchema = new mongoose.Schema ({
 
 }, {timeStamps:true} )
 
-module.exports = mongoose.model('Book',bookSchema)
+module.exports = mongoose.model('Book', bookSchema)
