@@ -85,10 +85,13 @@ router.get('/GET/films/:filmId', function(req, res){
         {"id":3, "name":"Inception"},
         {"id":4, "name":"Avengers"}
     ]
-    for (i=0;i<film.length; i++){
-        if(value<film[index].id){
-            res.send(film[value])
-        }else{
+    for (i=0;i<value; i++){
+        if(value<film.length){
+            return res.send(film[value - 1])
+        }else if(value==0){
+            return res.send('Please enter filmId above 0')
+        }
+        else{
             res.send("There is no such movie.")
         }
     }
