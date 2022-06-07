@@ -18,7 +18,7 @@ const bookList= async function (req, res) {
 
 //getBooksInYear: takes year as input in post request and gives list of all books published that year
 const getBooksInYear = async function(req, res){
-    let year = req.params.key
+    let year = req.params.year
     let bookYear = await BookModel.find({year:year})
 
     res.send({msg: bookYear})
@@ -30,21 +30,21 @@ const getBooksInYear = async function(req, res){
 // hence the condition will differ based on what you input in the request body
 
 const getParticularBooks = async function(req, res){
-    let letters = req.params.key
-    let books = await BookModel.find({bookName:/^letters/i})
+    let condition = req.body
+    let books = await BookModel.find(condition)
     res.send({msg: books})
 }
 
 
 // getXINRBooks- request to return all books who have an Indian price tag of “100INR” or “200INR” or “500INR” 
 const getXINRBooks = async function(req, res){
-    let rsbooks = await BookModel.find({$or:[{indianPrice:{$eq:100}},{indianPrice:{$eq:500}}]})
-    res.send({msg: rsbooks})
+    let bookPrice = await BookModel.find({"price.indianPrice":{$in:[300,320,190]}})
+    res.send({msg: bookPrice})
 }
 
 //getRandomBooks - returns books that are available in stock or have more than 500 pages
 const getRandomBooks = async function(req, res){
-    let random = await BookModel.find({$or:[{stockAvailable:true}, {pages:{$gt:500}}]})
+    let random = await BookModel.find({$or:[{stockAvailable:true}, {totalPages:{$gt:500}}]})
     res.send({msg: random})
 }
 module.exports.createBook= createBook
