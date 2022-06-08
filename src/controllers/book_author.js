@@ -33,14 +33,24 @@ let getBookByChetanBhagat = async(req,res)=>{
 let authorOfBook = async(req,res)=>{
     let data = await bookModel.findOneAndUpdate({name:"Two states"},{$set:{price:100}},{new:true})
     let authorData = await authorModel.find({author_id:data.author_id}).select("author_name")
-    res.send({msg: authorData})
+    let price = data.price
+    res.send({msg: authorData, price})
 }
 
 
 // Find the books which costs between 50-100(50,100 inclusive) and respond back with the author names of respective books.. 
 let bookPrice = async(req,res)=>{
-    let saveData = await bookModel.find({price:{$gte:50,$lte:100}})
-    res.send({msg: saveData})
+    let saveData = await bookModel.find({price:{$gte:50,$lte:100}}).select("author_id")
+    let id = saveData.map(x=>x.author_id)
+    let temp=[]
+    for(let i=0;i<id.length;i++){
+        const a=id[i]
+        let author=await authorModel.find({author_id:a},{author_name:1, _id:0})
+        temp.push(author)
+    }
+    const authorName=temp
+
+    res.send({msg: authorName})
 }
 
 
