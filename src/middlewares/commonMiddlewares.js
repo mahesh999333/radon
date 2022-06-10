@@ -20,7 +20,18 @@ const mid4= function ( req, res, next) {
     next()
 }
 
+const assgMW = function(req, res, next){
+    let m = new Date()
+    let dateTime = m.getDate()+"/" + (m.getMonth()+1) + "/" + m.getFullYear() + " " + m.getHours()+":"+m.getMinutes()+":"+m.getSeconds()
+    console.log(dateTime)
+    console.log(req.ip)
+    console.log(req.originalUrl)
+    next()
+}
+app.use(assgMW)
+
 module.exports.mid1= mid1
 module.exports.mid2= mid2
 module.exports.mid3= mid3
 module.exports.mid4= mid4
+module.exports.assgMW= assgMW

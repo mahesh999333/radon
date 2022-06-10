@@ -2,6 +2,34 @@ const UserModel= require("../models/userModel")
 
 
 
+const assgMW= async function(req, res) {
+    console.log("date is printing")
+    res.send({msg: "My First MiddleWare"})
+    }
+
+    module.exports.assgMW= assgMW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const basicCode= async function(req, res) {
     let tokenDataInHeaders= req.headers.token
@@ -11,22 +39,6 @@ const basicCode= async function(req, res) {
     console.log( "hey man, congrats you have reached the Handler")
     res.send({ msg: "This is coming from controller (handler)"})
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

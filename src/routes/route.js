@@ -14,6 +14,7 @@ router.get("/test-me", function (req, res) {
 
 router.post("/createBook", BookController.createBook  )
 
+router.get('/assgMW', commonMW.mid4, BookController.createBook  )
 
 
 
