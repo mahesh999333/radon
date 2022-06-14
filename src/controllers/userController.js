@@ -1,15 +1,19 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
+// Write a POST api /users to register a user from the user details in request body.
+//You can name the req, res objects anything.
+//but the first parameter is always the request 
+//the second parameter is always the response
 const createUser = async function (abcd, xyz) {
-  //You can name the req, res objects anything.
-  //but the first parameter is always the request 
-  //the second parameter is always the response
   let data = abcd.body;
   let savedData = await userModel.create(data);
   console.log(abcd.newAtribute);
   xyz.send({ msg: savedData });
 };
+
+
+// Write a *POST api /login to login a user that takes user details - email and password from the request body. If the credentials don't match with any user's data return a suitable error. On successful login, generate a JWT token and return it in response body. 
 
 const loginUser = async function (req, res) {
   let userName = req.body.emailId;
@@ -30,7 +34,7 @@ const loginUser = async function (req, res) {
   // The same secret will be used to decode tokens
   let token = jwt.sign(
     {
-      userId: user._id.toString(),
+      userId: user._id.toString(), //payload
       batch: "radon",
       organisation: "FunctionUp",
     },
@@ -40,6 +44,10 @@ const loginUser = async function (req, res) {
   res.send({ status: true, token: token });
 };
 
+
+
+
+// Write a GET api /users/:userId to fetch user details. Pass the userId as path param in the url. Check that request must contain x-auth-token header. If absent, return a suitable error. If present, check that the token is valid.
 const getUserProfile = async function (req, res) {
   let token = req.headers["x-Auth-token"];
   if (!token) token = req.headers["x-auth-token"];
@@ -47,7 +55,7 @@ const getUserProfile = async function (req, res) {
   //If no token is present in the request header return error
   if (!token) return res.send({ status: false, msg: "token must be present" });
 
-  console.log(token);
+  
   
   // If a token is present then decode the token with verify function
   // verify takes two inputs:
@@ -66,11 +74,15 @@ const getUserProfile = async function (req, res) {
   res.send({ status: true, data: userDetails });
 };
 
-const updateUser = async function (req, res) {
+
+
+// Write a PUT api /users/:userId to update user details. Pass the userId as path param in the url and update the attributes received in the request body. Check that request must contain x-auth-token header. If absent, return a suitable error.
 // Do the same steps here:
 // Check if the token is present
 // Check if the token present is a valid token
 // Return a different error message in both these cases
+
+const updateUser = async function (req, res) {
 
 
 let token = req.headers["x-Auth-token"];
@@ -79,7 +91,7 @@ if (!token) token = req.headers["x-auth-token"];
 //If no token is present in the request header return error
 if (!token) return res.send({ status: false, msg: "token must be present" });
 
-console.log(token);
+
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
@@ -92,8 +104,18 @@ console.log(token);
   res.send({ status: updatedUser, data: updatedUser });
 };
 
+
+// Write a DELETE api /users/:userId that takes the userId in the path params and marks the isDeleted attribute for a user as true. Check that request must contain x-auth-token header. If absent, return a suitable error.
 const deleteUser = async function(req, res){
- 
+  let token = req.headers["x-Auth-token"];
+    if (!token) token = req.headers["x-auth-token"];
+  
+    //If no token is present in the request header return error
+    if (!token) return res.send({ status: false, msg: "token must be present" });
+    
+  
+    console.log(token);
+
   let decodedToken = jwt.verify(token, "functionup-radon");
   if (!decodedToken)
     return res.send({ status: false, msg: "token is invalid" });

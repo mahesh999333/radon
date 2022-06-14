@@ -12,7 +12,7 @@ router.post("/users", userController.createUser  )
 router.post("/login", userController.loginUser)
 
 //The userId is sent by front end
-router.get("/getProfile/:userId", userController.getUserProfile)
+router.get("/getProfile/:userId",middleware.auth, userController.getUserProfile)
 
 router.put("/users/:userId", userController.updateUser)
 
