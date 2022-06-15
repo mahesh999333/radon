@@ -49,23 +49,7 @@ const loginUser = async function (req, res) {
 
 // Write a GET api /users/:userId to fetch user details. Pass the userId as path param in the url. Check that request must contain x-auth-token header. If absent, return a suitable error. If present, check that the token is valid.
 const getUserProfile = async function (req, res) {
-  let token = req.headers["x-Auth-token"];
-  if (!token) token = req.headers["x-auth-token"];
-
-  //If no token is present in the request header return error
-  if (!token) return res.send({ status: false, msg: "token must be present" });
-
   
-  
-  // If a token is present then decode the token with verify function
-  // verify takes two inputs:
-  // Input 1 is the token to be decoded
-  // Input 2 is the same secret with which the token was generated
-  // Check the value of the decoded token yourself
-  let decodedToken = jwt.verify(token, "functionup-radon");
-  if (!decodedToken)
-    return res.send({ status: false, msg: "token is invalid" });
-
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
   if (!userDetails)
@@ -81,45 +65,18 @@ const getUserProfile = async function (req, res) {
 // Check if the token is present
 // Check if the token present is a valid token
 // Return a different error message in both these cases
-
+//Updating User Details
 const updateUser = async function (req, res) {
-
-
-let token = req.headers["x-Auth-token"];
-if (!token) token = req.headers["x-auth-token"];
-
-//If no token is present in the request header return error
-if (!token) return res.send({ status: false, msg: "token must be present" });
-
-
   let userId = req.params.userId;
-  let user = await userModel.findById(userId);
-  //Return an error if no user with the given id exists in the db
-  if (!user) {
-    return res.send("No such user exists");
-  }
-
   let userData = req.body;
   let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData,{new:true});
-  res.send({ status: updatedUser, data: updatedUser });
+  res.send({ status: "updated", data: updatedUser });
 };
 
 
 // Write a DELETE api /users/:userId that takes the userId in the path params and marks the isDeleted attribute for a user as true. Check that request must contain x-auth-token header. If absent, return a suitable error.
+//Deleting User
 const deleteUser = async function(req, res){
-  let token = req.headers["x-Auth-token"];
-    if (!token) token = req.headers["x-auth-token"];
-  
-    //If no token is present in the request header return error
-    if (!token) return res.send({ status: false, msg: "token must be present" });
-    
-  
-    console.log(token);
-
-  let decodedToken = jwt.verify(token, "functionup-radon");
-  if (!decodedToken)
-    return res.send({ status: false, msg: "token is invalid" });
-
  let userId = req.params.userId
  let user = await userModel.findById(userId)
 
