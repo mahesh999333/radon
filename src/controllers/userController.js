@@ -95,7 +95,7 @@ const post = async function(req, res){
   let user = await userModel.findById(req.params.userId)
   let uploadPost = user.posts
   uploadPost.push(data)
-  let updatedData = await userModel.findOneAndUpdate({_id:user._id},{$set:{post:uploadPost}},{new:true})
+  let updatedData = await userModel.findOneAndUpdate({_id:user._id},{posts:uploadPost},{new:true})
   res.send({status:true, data:updatedData})
 }
 
