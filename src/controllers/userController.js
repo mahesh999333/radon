@@ -40,7 +40,7 @@ const loginUser = async function (req, res) {
     },
     "functionup-radon" // secret key
   );
-  res.setHeader("x-auth-token", token);
+  res.setHeader("x-auth-token", token);     //sending toke in response header
   res.send({ status: true, token: token });
 };
 
@@ -88,8 +88,21 @@ const deleteUser = async function(req, res){
 
 }
 
+
+// Adding Post
+const post = async function(req, res){
+  let data = req.body.massage
+  let user = await userModel.findById(req.params.userId)
+  let uploadPost = user.posts
+  uploadPost.push(data)
+  let updatedData = await userModel.findOneAndUpdate({_id:user._id},{$set:{post:uploadPost}},{new:true})
+  res.send({status:true, data:updatedData})
+}
+
+
 module.exports.createUser = createUser;
 module.exports.getUserProfile = getUserProfile;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
 module.exports.deleteUser = deleteUser;
+module.exports.post=post

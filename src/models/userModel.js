@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema( {
     isDelete:{
         type:Boolean,
         default:false
+    },
+    posts:{
+        type:[],
+        default:[]
     }
 }, { timestamps: true });
 
