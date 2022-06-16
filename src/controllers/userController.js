@@ -8,7 +8,7 @@ const userModel = require("../models/userModel");
 const createUser = async function (abcd, xyz) {
   try {
     let data = abcd.body;
-    if (Object.keys(data).length === 0) {
+    if (Object.keys(data).length === 0) {  // if the req.body is empty
       return xyz.status(400).send({ msg: "Error", error: "Body Can not be empty" }) // 204 for no content
     }
     if (!data.mobile) {
